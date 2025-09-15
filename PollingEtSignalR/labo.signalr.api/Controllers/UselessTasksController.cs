@@ -27,7 +27,7 @@ namespace labo.signalr.api.Controllers
             return await _context.UselessTasks.ToListAsync();
         }
 
-        [HttpPost]
+        [HttpPost("{taskText}")]
         public async Task<ActionResult<UselessTask>> Add(string taskText)
         {
             UselessTask uselessTask = new UselessTask() {
