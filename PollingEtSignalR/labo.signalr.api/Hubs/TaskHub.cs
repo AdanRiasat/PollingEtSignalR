@@ -9,6 +9,7 @@ namespace labo.signalr.api.Hubs
     public class TaskHub: Hub
     {
         private readonly ApplicationDbContext _context;
+        private int NbUsers = 0;
 
         public TaskHub (ApplicationDbContext context)
         {
@@ -17,7 +18,9 @@ namespace labo.signalr.api.Hubs
 
         public override async Task OnConnectedAsync()
         {
+            NbUsers++;
             var tasks = await _context.UselessTasks.ToListAsync();
+            await Clients.All.SendAsync("UserCount", NbUsers);
             await Clients.Caller.SendAsync("TaskList", tasks);
 
             base.OnConnectedAsync();
@@ -25,8 +28,8 @@ namespace labo.signalr.api.Hubs
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
-
-            
+            NbUsers--;
+            await Clients.All.SendAsync("UserCount", NbUsers);
 
             base.OnDisconnectedAsync(exception);
         }

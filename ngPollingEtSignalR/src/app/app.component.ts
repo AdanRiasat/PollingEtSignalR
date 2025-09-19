@@ -5,7 +5,6 @@ import { MatToolbar } from '@angular/material/toolbar';
 import { PollingComponent } from './polling/polling.component';
 import { SignalrComponent } from './signalr/signalr.component';
 
-
 @Component({
   selector: 'app-root',
   standalone: true,

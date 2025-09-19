@@ -48,6 +48,10 @@ export class SignalrComponent implements OnInit {
       console.log(data);
     })
 
+    this.hubConnection!.on('UserCount', (data: number) => {
+      this.usercount = data
+    })
+
     this.hubConnection
         .start()
         .then(() => {
@@ -59,21 +63,11 @@ export class SignalrComponent implements OnInit {
   complete(id: number) {
     // TODO On invoke la méthode pour compléter une tâche sur le serveur
     this.hubConnection!.invoke('Complete', id)
-
-    this.hubConnection!.on('TaskList', (data: UselessTask[]) => {
-      this.tasks = data
-      console.log(data);
-    })
   }
 
   addtask() {
     // TODO On invoke la méthode pour ajouter une tâche sur le serveur
 
     this.hubConnection!.invoke('Add', this.taskname)
-
-    this.hubConnection!.on('TaskList', (data: UselessTask[]) => {
-      this.tasks = data
-      console.log(data);
-    })
   }
 }
